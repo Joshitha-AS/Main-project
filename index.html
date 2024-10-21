@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="./css pages/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <script type="module" src="./script pages/firebase.js"></script>
+</head>
+
+<body>
+    <div class="container" id="login-page">
+        <div class="box">
+            <div id="signInMessage" class="messageDiv" style="display: none;"></div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="box-login" id="login">
+                    <div class="top-header">
+                        <h3>Welcome!</h3>
+                        <small>We are happy to have you back</small>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" class="input-box" id="loginEmail" required />
+                        </div>
+                        <div class="input-field">
+                            <label for="login-pswd">Password</label>
+                            <input type="password" class="input-box" id="login-pswd" required />
+                            <div class="eye-area">
+                                <div class="eye-box" onclick="myLogPassword()">
+                                    <i class="fa-regular fa-eye" id="eye"></i>
+                                    <i class="fa-regular fa-eye-slash" id="eye-slash"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="remember">
+                            <input type="checkbox" id="formcheck" class="check" />
+                            <label for="formcheck"> Remember Me</label>
+                        </div>
+                        <div class="input-field">
+                            <button type="submit" id="input-submit">Log In</button>
+                        </div>
+                        <div class="forgot">
+                            <a href="#" class="forgot-password">Forgot Password?</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
+                <div id="signUpMessage" class="messageDiv" style="display: none;"></div>
+                <div class="box-register" id="register">
+                    <div class="top-header">
+                        <h3>Sign Up, Now!</h3>
+                        <small>We are happy to have you with us</small>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="reg-user">Username</label>
+                            <input type="text" class="input-box" id="reg-user" required />
+                        </div>
+                        <div class="input-field">
+                            <label for="reg-email">Email Address</label>
+                            <input type="email" class="input-box" id="reg-email" required />
+                        </div>
+                        <div class="input-field">
+                            <label for="reg-pswd">Password</label>
+                            <input type="password" class="input-box" id="reg-pswd" required />
+                            <div class="eye-area">
+                                <div class="eye-box" onclick="myRegPassword()">
+                                    <i class="fa-regular fa-eye" id="eye-2"></i>
+                                    <i class="fa-regular fa-eye-slash" id="eye-slash-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="remember">
+                            <input type="checkbox" id="formcheck-2" class="check" />
+                            <label for="formcheck-2"> Remember Me</label>
+                        </div>
+                        <div class="input-field">
+                            <button type="submit" id="rinput-submit">Sign Up</button>
+                        </div>
+                        <div class="forgot">
+                            <a href="#">Forgot Password?</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="switch">
+                <a href="#" class="login" onclick="login()">Login</a>
+                <a href="#" class="register" onclick="register()">Register</a>
+                <div class="btn-active" id="btn"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var x = document.getElementById('login');
+        var y = document.getElementById('register');
+        var z = document.getElementById('btn');
+        var loginForm = document.getElementById('loginForm');
+        var registerForm = document.getElementById('registerForm');
+
+       
+        function login() {
+            x.style.left = "27px";
+            y.style.left = "350px";
+            z.style.left = "0px";
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        }
+
+       
+        function register() {
+            x.style.left = "-350px";
+            y.style.left = "25px";
+            z.style.left = "150px";
+            registerForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        }
+
+     
+        function handleLogin(event) {
+            event.preventDefault(); 
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('login-pswd').value;
+            console.log("Logging in with:", email, password);
+         
+        }
+
+        
+        function handleRegister(event) {
+            event.preventDefault(); 
+            const username = document.getElementById('reg-user').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-pswd').value;
+            console.log("Registering:", username, email, password);
+            
+        }
+
+      
+        function myLogPassword() {
+            var a = document.getElementById('login-pswd');
+            var b = document.getElementById('eye');
+            var c = document.getElementById('eye-slash');
+
+            if (a.type === "password") {
+                a.type = "text";
+                b.style.opacity = "0";
+                c.style.opacity = "1";
+            } else {
+                a.type = "password";
+                b.style.opacity = "1";
+                c.style.opacity = "0";
+            }
+        }
+
+     
+        function myRegPassword() {
+            var d = document.getElementById('reg-pswd');
+            var e = document.getElementById('eye-2');
+            var f = document.getElementById('eye-slash-2');
+
+            if (d.type === "password") {
+                d.type = "text";
+                e.style.opacity = "0";
+                f.style.opacity = "1";
+            } else {
+                d.type = "password";
+                e.style.opacity = "1";
+                f.style.opacity = "0";
+            }
+        }
+    </script>
+</body>
+
+</html>
