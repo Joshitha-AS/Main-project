@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register Module</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>  
+    <!-- Your HTML code for forms remains unchanged -->
+    <div class="container">
+        <div id="signUpMessage" style="display:none;"></div>
+        <div id="signInMessage" style="display:none;"></div>
+        <div class="form-box">
+            <!-- Sign In Form -->
+            <form id="loginForm" class="form active" novalidate>
+                <h2 class="title">Sign In</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+                <input type="submit" value="Login" class="btn">
+                <p class="switch-form">Don't have an account? <a href="#" id="showSignUp">Sign up</a></p>
+            </form>
+    
+            <!-- Sign Up Form -->
+            <form id="registerForm" class="form">
+                <h2 class="title">Sign Up</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Username" required>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="registerEmail" placeholder="Email" required>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="registerPassword" placeholder="Password" required>
+                </div>
+                <input type="submit" value="Sign Up" class="btn">
+                <p class="switch-form">Already have an account? <a href="#" id="showSignIn">Sign in</a></p>
+            </form>
+    
+            <!-- Forgot Password Form -->
+            <form id="forgotPasswordForm" class="form" novalidate>
+                <h2 class="title">Forgot Password</h2>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Enter your email" required>
+                </div>
+                <input type="submit" value="Send Reset Link" class="btn">
+                <p class="switch-form">Back to <a href="#" id="backToSignIn">Sign in</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add a Logout button -->
+    <button id="logout" style="display: none;">Logout</button>
+
+    <script type="module" src="login.js"></script>
+</body>
+</html>
