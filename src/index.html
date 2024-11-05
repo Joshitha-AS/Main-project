@@ -1,15 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home-Page</title>
-    <link href="./output.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Custom colors for faded white and aqua blue */
+    .bg-faded-white { background-color: #f8f9fa; }
+    .text-aqua-blue { color: #009fbd; }
+    .bg-aqua-blue { background-color: #009fbd; }
+    .bg-aqua-blue-hover:hover { background-color: #0085a5; }
+  </style>
 </head>
-<body>
-    <h1 class="text-3xl font-bold underline">
-        Hello world!
-    </h1>
-    
+<body class="bg-faded-white font-sans text-gray-800">
+
+  <!-- Top Navbar with Search and Profile Icon -->
+  <header class="bg-white h-16 shadow-md flex items-center px-4 lg:px-8">
+    <div class="container mx-auto flex justify-between items-center">
+      <!-- Search Bar -->
+      <div class="flex-grow">
+        <input type="text" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-aqua-blue">
+      </div>
+      <!-- Profile Icon -->
+      <div class="ml-4">
+        <div class="bg-aqua-blue h-10 w-10 rounded-full flex items-center justify-center text-white font-bold">
+          JD
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mx-auto p-4 flex lg:flex-row flex-col lg:space-x-4 mt-4">
+
+    <!-- Desktop Sidebar Navigation (Hidden on Mobile) -->
+    <aside class="hidden lg:block w-1/4 bg-white p-6 rounded-lg shadow-md">
+      <nav class="flex flex-col space-y-4">
+        <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">Home</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">Messages</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">Notifications</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">Profile</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Post Feed Section -->
+    <main class="w-full lg:w-1/2 bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold text-aqua-blue mb-4">Post Feed</h2>
+
+      <!-- Create Post Box -->
+      <div class="bg-faded-white p-4 rounded-lg shadow mb-4">
+        <textarea class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-aqua-blue" placeholder="What's on your mind?"></textarea>
+        <button id="post-feed" class="bg-aqua-blue text-white font-bold py-2 px-4 rounded mt-2 bg-aqua-blue-hover">Post</button>
+      </div>
+
+      <!-- Example Post -->
+      <div class="bg-faded-white p-4 rounded-lg shadow mb-4">
+        <div class="flex items-center mb-2">
+          <div class="bg-aqua-blue h-10 w-10 rounded-full mr-3"></div>
+          <h3 class="font-semibold text-gray-800">John Doe</h3>
+        </div>
+        <p class="text-gray-600 mb-2">Just finished a new design project! Super excited to share it with everyone.</p>
+        <img src="https://via.placeholder.com/300x150" alt="Post image" class="w-full rounded-lg mb-2">
+        <div class="flex justify-between text-sm text-gray-500">
+          <span>Like</span>
+          <span>Comment</span>
+          <span>Share</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Profile Section (Desktop Only) -->
+    <aside class="hidden lg:block w-1/4 bg-white p-6 rounded-lg shadow-md">
+      <h3 class="text-xl font-bold text-aqua-blue mb-4">Profile</h3>
+      <div class="flex flex-col items-center">
+        <div class="bg-aqua-blue h-20 w-20 rounded-full mb-4"></div>
+        <h4 class="text-lg font-semibold text-gray-800">John Doe</h4>
+        <p class="text-gray-500">Web Developer</p>
+        <button class="bg-aqua-blue text-white font-bold py-2 px-4 rounded mt-4 bg-aqua-blue-hover">Edit Profile</button>
+        <button class="bg-aqua-blue text-white" id="logout">LogOut</button>
+      </div>
+      <div class="mt-6">
+        <h4 class="text-lg font-semibold text-gray-800 mb-2">Friends</h4>
+        <ul class="space-y-2">
+          <li class="flex items-center space-x-2">
+            <div class="bg-gray-300 h-8 w-8 rounded-full"></div>
+            <span>Emily Davis</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <div class="bg-gray-300 h-8 w-8 rounded-full"></div>
+            <span>Michael Brown</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Bottom Navigation Bar (Mobile Only) -->
+  <nav class="fixed bottom-0 w-full bg-white shadow-lg lg:hidden">
+    <div class="flex justify-around p-3 text-aqua-blue">
+      <a href="#" class="flex flex-col items-center">
+        <span class="text-sm">Home</span>
+      </a>
+      <a href="#" class="flex flex-col items-center">
+        <span class="text-sm">Messages</span>
+      </a>
+      <a href="#" class="flex flex-col items-center">
+        <span class="text-sm">Blogs</span>
+      </a>
+      <a href="#" class="flex flex-col items-center">
+        <span class="text-sm">Profile</span>
+      </a>
+    </div>
+  </nav>
+ <script>
+  document.getElementById("logout").addEventListener("click",()=>{
+  localStorage.removeItem("userId");
+  window.location.href="/src/index.html"
+});
+ </script>
 </body>
 </html>
