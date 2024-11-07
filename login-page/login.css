@@ -183,4 +183,51 @@ span{
     }
 }
 
+/* Styles for additional fields */
+.input-field-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.input-field select {
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    width: 100%;
+    font-size: 1rem;
+    padding: 0;
+    cursor: pointer;
+}
+
+.toggle-password {
+    cursor: pointer;
+    margin-left: auto;
+    color: #aaa;
+}
+
+.social-login {
+    margin-top: 20px;
+    text-align: center;
+    color: #aaa;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icons i {
+    font-size: 1.5rem;
+    color: #00bfa6;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.social-icons i:hover {
+    color: #00a792;
+}
 
