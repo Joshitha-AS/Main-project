@@ -22,7 +22,7 @@ const db = getFirestore(app);
 // Check if user is already logged in
 const userId = localStorage.getItem("userId");
 if (userId && userId.length > 0) {
-  window.location.href = "/src/index.html";
+  window.location.href = "./home-page/home.html";
 }
 
 // Registration
@@ -60,25 +60,10 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
       console.log("User logged in:", user);
 
       document.getElementById('logout').style.display = 'block';
-      window.location.href = "/src/index.html";
+      window.location.href = "./home-page/home.html";
     })
     .catch((error) => {
       console.error("Login error:", error.message);
     });
 });
-
-// Logout functionality
-document.getElementById('logout').addEventListener('click', () => {
-  signOut(auth)
-    .then(() => {
-      document.getElementById('logout').style.display = 'none';
-      localStorage.removeItem("userId"); // Clear the userId from localStorage
-      window.location.href = "./login.html";
-    })
-    .catch((error) => {
-      console.error("Logout error:", error.message);
-    });
-});
-
-
 
