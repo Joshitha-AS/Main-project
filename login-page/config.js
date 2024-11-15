@@ -19,7 +19,7 @@ const db = getFirestore(app);
 
 async function loadJsonData() {
     try {
-        const response = await fetch('/src/config.json');
+        const response = await fetch('../config.json');
         const data = await response.json();
         await uploadToFirestore(data);
     } catch (error) {
@@ -42,7 +42,7 @@ loadJsonData();
 
 
 // Reference to Firestore collection
-const questionsCollection = db.collection("");
+const questionsCollection = db.collection("../config.json");
 
 // Function to fetch and display data
 function fetchAndDisplayQuestions() {

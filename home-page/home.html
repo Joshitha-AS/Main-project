@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media Home</title>
+  <title>Socify</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
-    /* Custom colors for faded white and aqua blue */
     .bg-faded-white { background-color: #f8f9fa; }
     .text-aqua-blue { color: #009fbd; }
     .bg-aqua-blue { background-color: #009fb9; }
@@ -18,66 +17,90 @@
   <!-- Top Navbar with Search and Profile Icon -->
   <header class="bg-white h-16 shadow-md flex items-center px-4 lg:px-8">
     <div class="container mx-auto flex justify-between items-center">
-      <!-- Search Bar -->
-      <div class="flex-grow">
+      <div class="text-xl font-bold text-aqua-blue">Instagram</div>
+      <div class="flex-grow mx-4">
         <input type="text" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-aqua-blue">
       </div>
-      <!-- Profile Icon -->
       <div class="ml-4">
-        <div class="bg-aqua-blue h-10 w-10 rounded-full flex items-center justify-center text-white font-bold">
-          JD
-        </div>
+        <div class="bg-aqua-blue h-10 w-10 rounded-full flex items-center justify-center text-white font-bold">JD</div>
       </div>
     </div>
   </header>
 
   <div class="container mx-auto p-4 flex lg:flex-row flex-col lg:space-x-4 mt-4">
 
-    <!-- Desktop Sidebar Navigation (Hidden on Mobile) -->
+    <!-- Sidebar Navigation (Hidden on Mobile) -->
     <aside class="hidden lg:block w-1/4 bg-white p-6 rounded-lg shadow-md">
       <nav class="flex flex-col space-y-4">
         <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
           <span class="text-lg font-semibold">Home</span>
         </a>
         <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
-          <span class="text-lg font-semibold">Messages</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
-          <span class="text-lg font-semibold">Notifications</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
           <span class="text-lg font-semibold">Profile</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">blogs</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">Explore</span>
         </a>
       </nav>
     </aside>
 
-    <!-- Main Post Feed Section -->
+    <!-- Main Content Section -->
     <main class="w-full lg:w-1/2 bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold text-aqua-blue mb-4">Post Feed</h2>
+
+      <!-- Stories Section -->
+      <section class="mb-6">
+        <h2 class="text-xl font-semibold text-aqua-blue mb-4">Stories</h2>
+        <div class="flex overflow-x-auto space-x-4">
+          <!-- Example Story Circles -->
+          <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div>
+          <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div>
+          <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div>
+          <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div>
+        </div>
+      </section>
 
       <!-- Create Post Box -->
-      <div class="bg-faded-white p-4 rounded-lg shadow mb-4">
+      <section class="bg-faded-white p-4 rounded-lg shadow mb-6">
         <textarea class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-aqua-blue" placeholder="What's on your mind?"></textarea>
-        <button id="post-feed" class="bg-aqua-blue text-white font-bold py-2 px-4 rounded mt-2 bg-aqua-blue-hover">Post</button>
-      </div>
+        <button class="bg-aqua-blue text-white font-bold py-2 px-4 rounded mt-2 bg-aqua-blue-hover w-full">Post</button>
+      </section>
 
-      <!-- Example Post -->
-      <div class="bg-faded-white p-4 rounded-lg shadow mb-4">
-        <div class="flex items-center mb-2">
-          <div class="bg-aqua-blue h-10 w-10 rounded-full mr-3"></div>
-          <h3 class="font-semibold text-gray-800">John Doe</h3>
+      <!-- Post Feed Section -->
+      <section>
+        <!-- Example Post -->
+        <div class="bg-faded-white p-4 rounded-lg shadow mb-4">
+          <div class="flex items-center mb-2">
+            <div class="bg-aqua-blue h-10 w-10 rounded-full mr-3"></div>
+            <h3 class="font-semibold text-gray-800">John Doe</h3>
+          </div>
+          <p class="text-gray-600 mb-2">Exploring new places this weekend! #travel</p>
+          <img src="https://via.placeholder.com/300x150" alt="Post image" class="w-full rounded-lg mb-2">
+          <div class="flex justify-between text-sm text-gray-500">
+            <span class="hover:text-aqua-blue cursor-pointer">Like</span>
+            <span class="hover:text-aqua-blue cursor-pointer">Comment</span>
+            <span class="hover:text-aqua-blue cursor-pointer">Share</span>
+          </div>
         </div>
-        <p class="text-gray-600 mb-2">Just finished a new design project! Super excited to share it with everyone.</p>
-        <img src="https://via.placeholder.com/300x150" alt="Post image" class="w-full rounded-lg mb-2">
-        <div class="flex justify-between text-sm text-gray-500">
-          <span>Like</span>
-          <span>Comment</span>
-          <span>Share</span>
+        <div class="bg-faded-white p-4 rounded-lg shadow mb-4">
+          <div class="flex items-center mb-2">
+            <div class="bg-aqua-blue h-10 w-10 rounded-full mr-3"></div>
+            <h3 class="font-semibold text-gray-800">John Doe</h3>
+          </div>
+          <p class="text-gray-600 mb-2">Exploring new places this weekend! #travel</p>
+          <img src="https://via.placeholder.com/300x150" alt="Post image" class="w-full rounded-lg mb-2">
+          <div class="flex justify-between text-sm text-gray-500">
+            <span class="hover:text-aqua-blue cursor-pointer">Like</span>
+            <span class="hover:text-aqua-blue cursor-pointer">Comment</span>
+            <span class="hover:text-aqua-blue cursor-pointer">Share</span>
+          </div>
         </div>
-      </div>
+      </section>
     </main>
 
-    <!-- Profile Section (Desktop Only) -->
+    <!-- Profile Sidebar (Hidden on Mobile) -->
     <aside class="hidden lg:block w-1/4 bg-white p-6 rounded-lg shadow-md">
       <h3 class="text-xl font-bold text-aqua-blue mb-4">Profile</h3>
       <div class="flex flex-col items-center">
@@ -85,7 +108,7 @@
         <h4 class="text-lg font-semibold text-gray-800">John Doe</h4>
         <p class="text-gray-500">Web Developer</p>
         <button class="bg-aqua-blue text-white font-bold py-2 px-4 rounded mt-4 bg-aqua-blue-hover">Edit Profile</button>
-        <button class="bg-aqua-blue text-white" id="logout">LogOut</button>
+        <button class="bg-aqua-blue text-white font-bold py-2 px-4 rounded mt-4 bg-aqua-blue-hover" id="logout">Logout</button>
       </div>
       <div class="mt-6">
         <h4 class="text-lg font-semibold text-gray-800 mb-2">Friends</h4>
@@ -110,21 +133,16 @@
         <span class="text-sm">Home</span>
       </a>
       <a href="#" class="flex flex-col items-center">
-        <span class="text-sm">Messages</span>
+        <span class="text-sm">Profile</span>
       </a>
       <a href="#" class="flex flex-col items-center">
         <span class="text-sm">Blogs</span>
       </a>
       <a href="#" class="flex flex-col items-center">
-        <span class="text-sm">Profile</span>
+        <span class="text-sm"></span>
       </a>
     </div>
   </nav>
- <script>
-  document.getElementById("logout").addEventListener("click",()=>{
-  localStorage.removeItem("userId");
-  window.location.href="/src/index.html"
-});
- </script>
+  <script type="module" src="./home.js"></script>
 </body>
 </html>

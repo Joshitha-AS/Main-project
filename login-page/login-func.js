@@ -132,7 +132,7 @@ function validateRegisterForm(event) {
   }
 }
 
-// Password visibility toggle
+
 // Password visibility toggle function
 function togglePasswordVisibility(fieldId) {
   const passwordField = document.getElementById(fieldId);
