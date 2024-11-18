@@ -7,10 +7,12 @@
     "role": "Frontend Developer",
     "isActive": true,
     "likes": 120,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Great post about React!",
       "I loved your CSS tricks article."
     ]
+    
   },
   {
     "id": 2,
@@ -20,6 +22,7 @@
     "role": "Backend Developer",
     "isActive": true,
     "likes": 85,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Thanks for the Node.js tips!",
       "How did you configure your server setup?"
@@ -33,6 +36,7 @@
     "role": "UI/UX Designer",
     "isActive": false,
     "likes": 50,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Your design portfolio is inspiring.",
       "Loved the minimalist website design!"
@@ -46,6 +50,7 @@
     "role": "Project Manager",
     "isActive": true,
     "likes": 95,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Amazing project management tips!",
       "How do you handle tight deadlines?"
@@ -59,6 +64,7 @@
     "role": "DevOps Engineer",
     "isActive": false,
     "likes": 70,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Thanks for the Kubernetes guide!",
       "Do you recommend Jenkins over GitHub Actions?"
@@ -72,6 +78,7 @@
     "role": "Data Analyst",
     "isActive": true,
     "likes": 140,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Your insights on data visualization are excellent.",
       "Can you share more about Tableau?"
@@ -85,6 +92,7 @@
     "role": "Mobile Developer",
     "isActive": false,
     "likes": 65,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Great tutorial on Flutter!",
       "What IDE do you use for mobile development?"
@@ -98,6 +106,7 @@
     "role": "Quality Assurance Engineer",
     "isActive": true,
     "likes": 110,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Your automation testing tips are gold!",
       "What tools do you recommend for beginners?"
@@ -111,6 +120,7 @@
     "role": "AI Specialist",
     "isActive": true,
     "likes": 200,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Incredible explanation of neural networks!",
       "Can you share your thoughts on GPT models?"
@@ -124,6 +134,7 @@
     "role": "Fullstack Developer",
     "isActive": false,
     "likes": 90,
+    "postFeed": "https://plus.unsplash.com/premium_photo-1676475964992-6404b8db0b53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxvd2Vyc3xlbnwwfHwwfHx8MA%3D%3D",
     "comments": [
       "Your fullstack course was amazing!",
       "Do you prefer MERN or MEAN stack?"

@@ -59,7 +59,6 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         window.location.href = "./home-page/home.html";
     } catch (error) {
         console.error("Error during registration:", error.message);
-        document.getElementById("r-emailError").innerText = error.message;
     }
 });
 
@@ -77,6 +76,5 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         window.location.href = "./home-page/home.html";
     } catch (error) {
         console.error("Login error:", error.message);
-        document.getElementById("loginEmailError").innerText = error.message;
     }
 });
