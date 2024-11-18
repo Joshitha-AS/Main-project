@@ -1,0 +1,132 @@
+[
+  {
+    "id": 1,
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "age": 25,
+    "role": "Frontend Developer",
+    "isActive": true,
+    "likes": 120,
+    "comments": [
+      "Great post about React!",
+      "I loved your CSS tricks article."
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Bob Smith",
+    "email": "bob.smith@example.com",
+    "age": 30,
+    "role": "Backend Developer",
+    "isActive": true,
+    "likes": 85,
+    "comments": [
+      "Thanks for the Node.js tips!",
+      "How did you configure your server setup?"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Charlie Brown",
+    "email": "charlie.brown@example.com",
+    "age": 27,
+    "role": "UI/UX Designer",
+    "isActive": false,
+    "likes": 50,
+    "comments": [
+      "Your design portfolio is inspiring.",
+      "Loved the minimalist website design!"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Diana Prince",
+    "email": "diana.prince@example.com",
+    "age": 28,
+    "role": "Project Manager",
+    "isActive": true,
+    "likes": 95,
+    "comments": [
+      "Amazing project management tips!",
+      "How do you handle tight deadlines?"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Edward King",
+    "email": "edward.king@example.com",
+    "age": 35,
+    "role": "DevOps Engineer",
+    "isActive": false,
+    "likes": 70,
+    "comments": [
+      "Thanks for the Kubernetes guide!",
+      "Do you recommend Jenkins over GitHub Actions?"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Fiona White",
+    "email": "fiona.white@example.com",
+    "age": 22,
+    "role": "Data Analyst",
+    "isActive": true,
+    "likes": 140,
+    "comments": [
+      "Your insights on data visualization are excellent.",
+      "Can you share more about Tableau?"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "George Harris",
+    "email": "george.harris@example.com",
+    "age": 29,
+    "role": "Mobile Developer",
+    "isActive": false,
+    "likes": 65,
+    "comments": [
+      "Great tutorial on Flutter!",
+      "What IDE do you use for mobile development?"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Hannah Lee",
+    "email": "hannah.lee@example.com",
+    "age": 24,
+    "role": "Quality Assurance Engineer",
+    "isActive": true,
+    "likes": 110,
+    "comments": [
+      "Your automation testing tips are gold!",
+      "What tools do you recommend for beginners?"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Isaac Newton",
+    "email": "isaac.newton@example.com",
+    "age": 31,
+    "role": "AI Specialist",
+    "isActive": true,
+    "likes": 200,
+    "comments": [
+      "Incredible explanation of neural networks!",
+      "Can you share your thoughts on GPT models?"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "age": 26,
+    "role": "Fullstack Developer",
+    "isActive": false,
+    "likes": 90,
+    "comments": [
+      "Your fullstack course was amazing!",
+      "Do you prefer MERN or MEAN stack?"
+    ]
+  }
+]

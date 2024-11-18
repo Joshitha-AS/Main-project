@@ -1,8 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-// Firebase configuration object
+// Your Firebase config object
 const firebaseConfig = {
   apiKey: "AIzaSyBoSKc0-O0CB-6DsQHW74dSW41Hnk6lQJs",
   authDomain: "social-media-10a7a.firebaseapp.com",
@@ -15,63 +14,51 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Initialize Firestore
 const db = getFirestore(app);
 
-async function loadJsonData() {
-    try {
-        const response = await fetch('../config.json');
-        const data = await response.json();
-        await uploadToFirestore(data);
-    } catch (error) {
-        console.error("Error fetching JSON:", error);
-    }
-}
-async function uploadToFirestore(data) {
-    for (const item of data) {
-        try {
-            // Use `setDoc` with a unique ID for each document
-            const docRef = doc(db, "placeholder", `user_${item.id}`);
-            await setDoc(docRef, item);
-            console.log('Document added:', item);
-        } catch (error) {
-            console.error('Error adding document:', error);
-        }
-    }
-}
-loadJsonData();
+// Reference to your Firestore collection
+const collectionRef = collection(db, "userData");
 
-
-// Reference to Firestore collection
-const questionsCollection = db.collection("../config.json");
-
-// Function to fetch and display data
-function fetchAndDisplayQuestions() {
-  questionsCollection.get().then((querySnapshot) => {
+// Fetch data using getDocs (modular API)
+getDocs(collectionRef)
+  .then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      // Each doc represents a question
-      const questionData = doc.data();
-      displayQuestion(questionData); // Pass data to display function
+      const data = doc.data();
+      
+      // Extract fields from document
+      const name = data.name || "N/A";  // User's name
+      const role = data.role || "N/A";  // User's role
+      const email = data.email || "N/A"; // User's email
+      
+      // Create a container for the user data
+      const userDiv = document.createElement("div");
+      userDiv.classList.add("user");
+      userDiv.style.height="400px";
+      userDiv.style.marginBottom="20px"
+      userDiv.style.backgroundColor=""
+
+
+      // Add name, role, and email in separate <p> tags
+      const nameP = document.createElement("p");
+      nameP.textContent = `Name: ${name}`;
+      
+      const roleP = document.createElement("p");
+      roleP.textContent = `Role: ${role}`;
+      
+      const emailP = document.createElement("p");
+      emailP.textContent = `Email: ${email}`;
+
+      // Append all <p> tags to the user container
+      userDiv.appendChild(nameP);
+      userDiv.appendChild(roleP);
+      userDiv.appendChild(emailP);
+
+      // Append the user container to the main container
+      document.getElementById("postContainer").appendChild(userDiv);
     });
-  }).catch((error) => {
-    console.error("Error fetching data: ", error);
+  })
+  .catch((error) => {
+    console.error("Error fetching data:", error);
   });
-}
-
-// Function to render question on the page
-function displayQuestion(data) {
-  const questionContainer = document.getElementById("questionContainer");
-  
-  // Create HTML elements to display the question data
-  const questionElement = document.createElement("div");
-  questionElement.classList.add("question-item");
-  questionElement.innerHTML = `
-    <h3>${data.title}</h3>
-    <p>${data.description}</p>
-  `;
-
-  // Append the question to the container
-  questionContainer.appendChild(questionElement);
-}
-
-// Call the fetch function on page load
-window.onload = fetchAndDisplayQuestions;
