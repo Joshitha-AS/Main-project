@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login & Register Module- Main Project</title>
+    <title>Login & Register Module</title>
     <link rel="stylesheet" href="./css/login.css" />
     <link
       rel="stylesheet"
@@ -13,7 +13,6 @@
       referrerpolicy="no-referrer"
     />
   </head>
-
   <body>
     <div class="container">
       <div id="signUpMessage" style="display: none"></div>
@@ -22,14 +21,17 @@
         <!-- Sign In Form -->
         <form id="loginForm" class="form active" novalidate>
           <h2 class="title">Sign In</h2>
-
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="email" id="loginEmail" placeholder="Email" required />
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="Email"
+              aria-label="Login Email"
+              required
+            />
           </div>
-          <div>
-            <span id="loginEmailError"></span>
-          </div>
+          <span id="loginEmailError" class="error-message"></span>
 
           <div class="input-field">
             <i class="fas fa-lock"></i>
@@ -37,16 +39,16 @@
               type="password"
               id="loginPassword"
               placeholder="Password"
+              aria-label="Login Password"
               required
             />
             <i
               class="fas fa-eye toggle-password"
               onclick="togglePasswordVisibility('loginPassword')"
+              aria-label="Toggle Password Visibility"
             ></i>
           </div>
-          <div>
-            <span id="loginPasswordError"></span>
-          </div>
+          <span id="loginPasswordError" class="error-message"></span>
 
           <input type="submit" value="Login" class="btn" />
           <p class="switch-form">
@@ -57,24 +59,29 @@
         <!-- Sign Up Form -->
         <form id="registerForm" class="form" novalidate>
           <h2 class="title">Sign Up</h2>
-
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" id="username" placeholder="Username" required />
+            <input
+              type="text"
+              id="username"
+              placeholder="Username"
+              aria-label="Username"
+              required
+            />
           </div>
-          <div>
-            <span id="r-textError"></span>
-          </div>
+          <span id="r-textError" class="error-message"></span>
+
           <div class="input-field">
             <i class="fas fa-envelope"></i>
             <input
               type="email"
               id="registerEmail"
               placeholder="Email"
+              aria-label="Register Email"
               required
             />
           </div>
-          <span id="r-emailError"></span>
+          <span id="r-emailError" class="error-message"></span>
 
           <div class="input-field">
             <i class="fa fa-calendar"></i>
@@ -82,41 +89,50 @@
               type="number"
               id="registerNumber"
               placeholder="Age"
+              aria-label="Age"
               required
             />
           </div>
-          <span id="r-ageError"></span>
+          <span id="r-ageError" class="error-message"></span>
+
           <div class="input-field">
             <i class="fa fa-venus-mars"></i>
-            <select id="gender" required>
+            <select id="gender" aria-label="Gender" required>
               <option value="" disabled selected>Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
           </div>
-          <span id="genderError"></span>
+          <span id="genderError" class="error-message"></span>
+
           <div class="input-field">
-            <i class="fas fa -lock"></i>
+            <i class="fas fa-lock"></i>
             <input
               type="password"
               id="registerPassword"
               placeholder="Password"
+              aria-label="Register Password"
               required
             />
             <i
               class="fas fa-eye toggle-password"
               onclick="togglePasswordVisibility('registerPassword')"
+              aria-label="Toggle Password Visibility"
             ></i>
           </div>
-          <span id="r-pswdError"></span>
-          <input type="submit" value="Sign Up" class="btn" id="showSignIn" />
+          <span id="r-pswdError" class="error-message"></span>
+
+          <input type="submit" value="Sign Up" class="btn" />
         </form>
 
-        <!-- Add a Logout button -->
-        <button id="logout" style="display: none">Logout</button>
+        <!-- Logout Button -->
+        <button id="logout" class="btn logout-btn" style="display: none">
+          Logout
+        </button>
       </div>
     </div>
+
     <script type="module" src="./javascript/login-func.js"></script>
     <script type="module" src="./javascript/firebaseconfig.js"></script>
   </body>

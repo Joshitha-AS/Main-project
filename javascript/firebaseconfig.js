@@ -46,12 +46,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("registerForm").addEventListener("submit", handleRegister);
 
     // Real-time validation for registration fields
-    const registerFields = ["username", "registerEmail", "registerPassword", "registerNumber", "gender"];
-    registerFields.forEach((field) => document.getElementById(field).addEventListener("input", validateRegisterField));
+    ["username", "registerEmail", "registerPassword", "registerNumber", "gender"].forEach((field) =>
+        document.getElementById(field).addEventListener("input", validateRegisterField)
+    );
 
     // Real-time validation for login fields
-    const loginFields = ["loginEmail", "loginPassword"];
-    loginFields.forEach((field) => document.getElementById(field).addEventListener("input", validateLoginField));
+    ["loginEmail", "loginPassword"].forEach((field) =>
+        document.getElementById(field).addEventListener("input", validateLoginField)
+    );
 });
 
 // --- Utility: Real-time Field Validation ---
@@ -92,15 +94,22 @@ function validateLoginField(event) {
 async function handleRegister(event) {
     event.preventDefault();
 
-    const isValid =
-        validateUsername() &&
-        validateEmail("registerEmail", "r-emailError") &&
-        validatePassword("registerPassword", "r-pswdError") &&
-        validateAge() &&
-        validateGender();
+    // Perform all validations and collect results
+    const isUsernameValid = validateUsername();
+    const isEmailValid = validateEmail("registerEmail", "r-emailError");
+    const isPasswordValid = validatePassword("registerPassword", "r-pswdError");
+    const isAgeValid = validateAge();
+    const isGenderValid = validateGender();
 
-    if (!isValid) return;
+    // Check if all validations passed
+    const isValid = isUsernameValid && isEmailValid && isPasswordValid && isAgeValid && isGenderValid;
 
+    if (!isValid) {
+        console.log("Validation failed. Please check the highlighted errors.");
+        return; // Stop submission if any validation fails
+    }
+
+    // Proceed with Firebase registration
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("registerEmail").value.trim();
     const password = document.getElementById("registerPassword").value.trim();
@@ -126,11 +135,19 @@ async function handleRegister(event) {
 async function handleLogin(event) {
     event.preventDefault();
 
-    const isValid =
-        validateEmail("loginEmail", "loginEmailError") && validatePassword("loginPassword", "loginPasswordError");
+    // Perform all validations and collect results
+    const isEmailValid = validateEmail("loginEmail", "loginEmailError");
+    const isPasswordValid = validatePassword("loginPassword", "loginPasswordError");
 
-    if (!isValid) return;
+    // Check if all validations passed
+    const isValid = isEmailValid && isPasswordValid;
 
+    if (!isValid) {
+        console.log("Validation failed. Please check the highlighted errors.");
+        return; // Stop submission if any validation fails
+    }
+
+    // Proceed with Firebase login
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value.trim();
 
@@ -150,7 +167,6 @@ function validateUsername() {
     const errorField = document.getElementById("r-textError");
     errorField.textContent = ""; // Clear previous error
 
-    // Regular expression: Only letters, numbers, and underscores are allowed
     const usernamePattern = /^[a-zA-Z0-9_]+$/;
 
     if (!username) {
@@ -188,7 +204,10 @@ function validateEmail(inputId, errorId) {
 function validatePassword(inputId, errorId) {
     const password = document.getElementById(inputId).value.trim();
     const errorField = document.getElementById(errorId);
-    errorField.textContent = "";
+    errorField.textContent = ""; // Clear previous error
+
+    // Regular expression to check if password contains at least one lowercase, one uppercase, and one number
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
     if (!password) {
         errorField.textContent = "Password is required.";
@@ -198,8 +217,14 @@ function validatePassword(inputId, errorId) {
         errorField.textContent = "Password must be at least 8 characters.";
         return false;
     }
+    if (!passwordPattern.test(password)) {
+        errorField.textContent = "Password must contain at least one uppercase letter, one lowercase letter, and one number.";
+        return false;
+    }
+
     return true;
 }
+
 
 function validateAge() {
     const age = document.getElementById("registerNumber").value.trim();
@@ -241,12 +266,5 @@ function handleAuthErrors(error, errorFieldId) {
             errorField.textContent = "Weak password. Use at least 8 characters.";
             break;
         case "auth/user-not-found":
-            errorField.textContent = "No user found with this email.";
-            break;
-        case "auth/wrong-password":
-            errorField.textContent = "Incorrect password.";
-            break;
-        default:
-            errorField.textContent = error.message;
+            errorField.textContent= "user not found"}
     }
-}
