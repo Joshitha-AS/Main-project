@@ -3,15 +3,9 @@ document.getElementById('showSignUp').addEventListener('click', (e) => {
   e.preventDefault();
   document.getElementById('loginForm').classList.remove('active');
   document.getElementById('registerForm').classList.add('active');
-//   document.getElementById('forgotPasswordForm').classList.remove('active');
+
 });
 
-// document.getElementById('showSignIn').addEventListener('click', (e) => {
-//   e.preventDefault();
-//   document.getElementById('registerForm').classList.remove('active');
-//   document.getElementById('loginForm').classList.add('active');
-// //   document.getElementById('forgotPasswordForm').classList.remove('active');
-// });
 
 document.addEventListener("DOMContentLoaded", () => {
   // Event listeners for form submissions
