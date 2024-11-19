@@ -1,12 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-import { 
-    getAuth, 
-    setPersistence, 
-    browserSessionPersistence, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    onAuthStateChanged 
+import {
+    getAuth,
+    setPersistence,
+    browserSessionPersistence,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 
 // Firebase configuration
@@ -17,7 +17,7 @@ const firebaseConfig = {
     storageBucket: "social-media-10a7a.appspot.com",
     messagingSenderId: "770987768855",
     appId: "1:770987768855:web:6dc441a7491249c8cf3052",
-    measurementId: "G-61L75JPTKG"
+    measurementId: "G-61L75JPTKG",
 };
 
 // Initialize Firebase
@@ -27,138 +27,226 @@ const db = getFirestore(app);
 
 // Set Firebase Auth Persistence to session
 setPersistence(auth, browserSessionPersistence)
-    .then(() => {
-        console.log("Session persistence set.");
-    })
-    .catch((error) => {
-        console.error("Error setting persistence:", error.message);
-    });
+    .then(() => console.log("Session persistence set."))
+    .catch((error) => console.error("Error setting persistence:", error.message));
 
 // Redirect if the user is already logged in
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        console.log("User is logged in:", user); // Debugging log
+        console.log("User is logged in:", user);
         window.location.href = "./html/home.html";
     } else {
-        console.log("No user is logged in"); // Debugging log
+        console.log("No user is logged in.");
     }
 });
 
-// Signup Functionality
-document.getElementById("registerForm").addEventListener("submit", async function (e) {
-    e.preventDefault(); // Prevent default form submission
-    clearSignupErrors(); // Clear previous error messages
+// DOMContentLoaded Event
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("loginForm").addEventListener("submit", handleLogin);
+    document.getElementById("registerForm").addEventListener("submit", handleRegister);
 
-    // Collect form input values
+    // Real-time validation for registration fields
+    const registerFields = ["username", "registerEmail", "registerPassword", "registerNumber", "gender"];
+    registerFields.forEach((field) => document.getElementById(field).addEventListener("input", validateRegisterField));
+
+    // Real-time validation for login fields
+    const loginFields = ["loginEmail", "loginPassword"];
+    loginFields.forEach((field) => document.getElementById(field).addEventListener("input", validateLoginField));
+});
+
+// --- Utility: Real-time Field Validation ---
+function validateRegisterField(event) {
+    const fieldId = event.target.id;
+    switch (fieldId) {
+        case "username":
+            validateUsername();
+            break;
+        case "registerEmail":
+            validateEmail("registerEmail", "r-emailError");
+            break;
+        case "registerPassword":
+            validatePassword("registerPassword", "r-pswdError");
+            break;
+        case "registerNumber":
+            validateAge();
+            break;
+        case "gender":
+            validateGender();
+            break;
+    }
+}
+
+function validateLoginField(event) {
+    const fieldId = event.target.id;
+    switch (fieldId) {
+        case "loginEmail":
+            validateEmail("loginEmail", "loginEmailError");
+            break;
+        case "loginPassword":
+            validatePassword("loginPassword", "loginPasswordError");
+            break;
+    }
+}
+
+// --- Form Submission Handlers ---
+async function handleRegister(event) {
+    event.preventDefault();
+
+    const isValid =
+        validateUsername() &&
+        validateEmail("registerEmail", "r-emailError") &&
+        validatePassword("registerPassword", "r-pswdError") &&
+        validateAge() &&
+        validateGender();
+
+    if (!isValid) return;
+
+    const username = document.getElementById("username").value.trim();
     const email = document.getElementById("registerEmail").value.trim();
     const password = document.getElementById("registerPassword").value.trim();
-    const username = document.getElementById("username").value.trim();
-
-    // Validate form fields
-    if (!email || !password || !username) {
-        displaySignupError("All fields are required.");
-        return;
-    }
-
-    if (password.length < 6) {
-        displaySignupError("Password must be at least 6 characters long.");
-        return;
-    }
 
     try {
-        // Create user with Firebase Authentication
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Save additional user data in Firestore
         await setDoc(doc(db, "users", user.uid), {
-            username: username,
-            email: email,
-            createdAt: new Date().toISOString(), // Add timestamp for user creation
+            username,
+            email,
+            createdAt: new Date().toISOString(),
         });
 
         console.log("Registration successful:", user);
-
-        // Redirect to home page
-        setTimeout(() => {
-            window.location.href = "./html/home.html";
-        }, 500); // Slight delay for user data to settle
-
+        window.location.href = "./html/home.html";
     } catch (error) {
-        console.error("Signup error:", error.message);
-
-        // Handle specific Firebase signup errors
-        if (error.code === "auth/email-already-in-use") {
-            displaySignupError("This email is already in use. Please use a different one.");
-        } else if (error.code === "auth/invalid-email") {
-            displaySignupError("Please enter a valid email address.");
-        } else if (error.code === "auth/weak-password") {
-            displaySignupError("Your password is too weak. Use at least 6 characters.");
-        } else {
-            displaySignupError(error.message);
-        }
+        console.error("Registration error:", error.message);
+        handleAuthErrors(error, "r-emailError");
     }
-});
+}
 
-// Login Functionality
-document.getElementById("loginForm").addEventListener("submit", async function (e) {
-    e.preventDefault(); // Prevent default form submission
-    clearLoginErrors(); // Clear previous error messages
+async function handleLogin(event) {
+    event.preventDefault();
 
-    // Collect login input values
+    const isValid =
+        validateEmail("loginEmail", "loginEmailError") && validatePassword("loginPassword", "loginPasswordError");
+
+    if (!isValid) return;
+
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value.trim();
 
-    // Validate login fields
-    if (!email || !password) {
-        displayLoginError("Email and password are required.");
-        return;
-    }
-
     try {
-        // Attempt to sign in the user
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        console.log("Login successful:", user);
-
-        // Redirect to home page
-        setTimeout(() => {
-            window.location.href = "./html/home.html";
-        }, 500);
-
+        console.log("Login successful:", userCredential.user);
+        window.location.href = "./html/home.html";
     } catch (error) {
         console.error("Login error:", error.message);
-
-        // Handle specific Firebase login errors
-        if (error.code === "auth/user-not-found") {
-            displayLoginError("No user found with this email.");
-        } else if (error.code === "auth/wrong-password") {
-            displayLoginError("Incorrect password. Please try again.");
-        } else {
-            displayLoginError(error.message);
-        }
+        handleAuthErrors(error, "loginEmailError");
     }
-});
-
-// Utility: Clear Signup Errors
-function clearSignupErrors() {
-    document.getElementById("r-emailError").innerText = "";
-    document.getElementById("r-textError").innerText = "";
-    document.getElementById("r-pswdError").innerText = "";
 }
 
-// Utility: Display Signup Errors
-function displaySignupError(message) {
-    document.getElementById("r-emailError").innerText = message;
+// --- Validation Functions ---
+function validateUsername() {
+    const username = document.getElementById("username").value.trim();
+    const errorField = document.getElementById("r-textError");
+    errorField.textContent = ""; // Clear previous error
+
+    // Regular expression: Only letters, numbers, and underscores are allowed
+    const usernamePattern = /^[a-zA-Z0-9_]+$/;
+
+    if (!username) {
+        errorField.textContent = "Username is required.";
+        return false;
+    }
+    if (!usernamePattern.test(username)) {
+        errorField.textContent = "Username can only contain letters, numbers, and underscores.";
+        return false;
+    }
+    if (username.length < 3 || username.length > 30) {
+        errorField.textContent = "Username must be between 3 and 30 characters.";
+        return false;
+    }
+
+    return true;
 }
 
-// Utility: Clear Login Errors
-function clearLoginErrors() {
-    document.getElementById("loginEmailError").innerText = "";
+function validateEmail(inputId, errorId) {
+    const email = document.getElementById(inputId).value.trim();
+    const errorField = document.getElementById(errorId);
+    errorField.textContent = "";
+
+    if (!email) {
+        errorField.textContent = "Email is required.";
+        return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+        errorField.textContent = "Please enter a valid email.";
+        return false;
+    }
+    return true;
 }
 
-// Utility: Display Login Errors
-function displayLoginError(message) {
-    document.getElementById("loginEmailError").innerText = message;
+function validatePassword(inputId, errorId) {
+    const password = document.getElementById(inputId).value.trim();
+    const errorField = document.getElementById(errorId);
+    errorField.textContent = "";
+
+    if (!password) {
+        errorField.textContent = "Password is required.";
+        return false;
+    }
+    if (password.length < 8) {
+        errorField.textContent = "Password must be at least 8 characters.";
+        return false;
+    }
+    return true;
+}
+
+function validateAge() {
+    const age = document.getElementById("registerNumber").value.trim();
+    const errorField = document.getElementById("r-ageError");
+    errorField.textContent = "";
+
+    if (!age || isNaN(age) || age < 18 || age > 100) {
+        errorField.textContent = "Please enter a valid age between 18 and 100.";
+        return false;
+    }
+    return true;
+}
+
+function validateGender() {
+    const gender = document.getElementById("gender").value;
+    const errorField = document.getElementById("genderError");
+    errorField.textContent = "";
+
+    if (!gender) {
+        errorField.textContent = "Please select a gender.";
+        return false;
+    }
+    return true;
+}
+
+// --- Error Handling ---
+function handleAuthErrors(error, errorFieldId) {
+    const errorField = document.getElementById(errorFieldId);
+    errorField.textContent = "";
+
+    switch (error.code) {
+        case "auth/email-already-in-use":
+            errorField.textContent = "This email is already in use.";
+            break;
+        case "auth/invalid-email":
+            errorField.textContent = "Invalid email address.";
+            break;
+        case "auth/weak-password":
+            errorField.textContent = "Weak password. Use at least 8 characters.";
+            break;
+        case "auth/user-not-found":
+            errorField.textContent = "No user found with this email.";
+            break;
+        case "auth/wrong-password":
+            errorField.textContent = "Incorrect password.";
+            break;
+        default:
+            errorField.textContent = error.message;
+    }
 }
