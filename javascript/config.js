@@ -55,8 +55,9 @@ getDocs(collectionRef)
       const commentsP = document.createElement("p");
       commentsP.textContent = `Comments: ${comments}`;
 
-      const feedP = document.createElement("img");
-      feedP.textContent = `Feed: ${feed}`;
+      const feedP = document.createElement("div");
+      feedP.className="example";
+      feedP.innerHTML = `<img src="${feed}" style="height=10px ">`;
 
       // Append all <p> tags to the user container
       userDiv.appendChild(nameP);
