@@ -1,5 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getDatabase, ref as databaseRef, set, get } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
+
 
 // Your Firebase config object
 const firebaseConfig = {
@@ -14,62 +15,89 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const firebase = getDatabase(app);
 
-// Initialize Firestore
-const db = getFirestore(app);
-
-// Reference to your Firestore collection
-const collectionRef = collection(db, "userData");
+const postPath=`socify/posts`;
 
 // Fetch data using getDocs (modular API)
-getDocs(collectionRef)
-  .then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      
-      // Extract fields from document
-      const name = data.name || "N/A";  // User's name
-      const role = data.role || "N/A";  // User's role
-      const email = data.email || "N/A"; // User's email
-      const comments= data.comments|| "N/A"; 
-      const feed= data.postFeed|| "N/A";
-      
-      // Create a container for the user data
-      const userDiv = document.createElement("div");
-      userDiv.classList.add("user");
-      userDiv.style.height="400px";
-      userDiv.style.marginBottom="20px"
-      userDiv.style.backgroundColor="#f8f9fa"
+await get(databaseRef(firebase, postPath))
+  .then((snapShot) => {
+    const data=snapShot.val();
+    Object.keys(data).sort().forEach(dailyPost=>{ 
+        const Post=data[dailyPost]         
+        Object.keys(Post).forEach(x=>{
+            let postData=Post[x];
+            let userName=x;
+            console.log(dailyPost);
 
+            let role=ISOtoIndian(dailyPost)
+            let feed=postData.postLink;
+          
+            console.log(userName,role,feed);
+            const postContainer = document.createElement("div");
+            postContainer.innerHTML = `<div class="bg-faded-white p-4 rounded-lg shadow mb-4 postContainer" >
+                  <div class="flex items-center mb-2">
+                    <div class="bg-aqua-blue h-10 w-10 rounded-full mr-3"></div>
+                    <h3 class="font-semibold text-gray-800">${userName}</h3>
+                  </div>
+                  <p class="text-gray-600 mb-2">${role}</p>
+                  <div>
+                     <img src='${feed}' alt="">
+                  </div>
+                  <div class="flex justify-between text-sm text-gray-500">
+                    <span class="hover:text-aqua-blue cursor-pointer">Like</span>
+                    <span class="hover:text-aqua-blue cursor-pointer">Comment</span>
+                    <span class="hover:text-aqua-blue cursor-pointer">Share</span>
+                  </div>
+                </div>`
+        
+            // Append the user container to the main container
+            document.getElementById("mainPostContainer").appendChild(postContainer);
+          })
 
-      // Add name, role, and email in separate <p> tags
-      const nameP = document.createElement("p");
-      nameP.textContent = `Name: ${name}`;
-      
-      const roleP = document.createElement("p");
-      roleP.textContent = `Role: ${role}`;
-      
-      const emailP = document.createElement("p");
-      emailP.textContent = `Email: ${email}`;
-
-      const commentsP = document.createElement("p");
-      commentsP.textContent = `Comments: ${comments}`;
-
-      const feedP = document.createElement("div");
-      feedP.className="example";
-      feedP.innerHTML = `<img src="${feed}" style="height=10px ">`;
-
-      // Append all <p> tags to the user container
-      userDiv.appendChild(nameP);
-      userDiv.appendChild(roleP);
-      userDiv.appendChild(emailP);
-      userDiv.appendChild(commentsP);
-      userDiv.appendChild(feedP);
-
-      // Append the user container to the main container
-      document.getElementById("postContainer").appendChild(userDiv);
-    });
-  })
+        })
+          
+        })
+        
   .catch((error) => {
     console.error("Error fetching data:", error);
   });
+
+
+
+
+
+  function ISOtoIndian(dailyPost) {
+    let hour = parseInt(dailyPost.split("_")[3]);
+let minute = parseInt(dailyPost.split("_")[4]);
+
+// Add 5 hours and 30 minutes to convert to IST
+hour += 5;
+minute += 30;
+
+// Handle overflow if minutes exceed 60
+if (minute >= 60) {
+    minute -= 60;
+    hour += 1;
+}
+
+// Handle overflow if hours exceed 24
+if (hour >= 24) {
+    hour -= 24;
+}
+
+// Determine AM or PM
+let ampm = hour >= 12 ? 'PM' : 'AM';
+
+// Convert hour to 12-hour format
+if (hour > 12) {
+    hour -= 12;
+} else if (hour === 0) {
+    hour = 12; // Midnight case
+}
+
+// Format the time in hh:mm:ss AM/PM format (add leading zero if needed)
+const formattedTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00 ${ampm}`;
+
+return(formattedTime); 
+  }

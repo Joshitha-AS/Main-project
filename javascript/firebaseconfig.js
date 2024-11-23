@@ -118,20 +118,21 @@ async function handleRegister(event) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        await setDoc(doc(db, "users", user.uid), {
-            username,
-            email,
-            createdAt: new Date().toISOString(),
-        });
+        const userData = {
+            email: email,
+            username: username,
+            profileimg:
+                "https://i0.wp.com/static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg?ssl=1",
+            uid: user.uid,
+        };
 
-        console.log("Registration successful:", user);
-        window.location.href = "./html/home.html";
+        await setDoc(doc(db, "users", user.uid), userData);
+        console.log("User registered successfully!");
+        window.location.href = "./login.html";
     } catch (error) {
         console.error("Registration error:", error.message);
-        handleAuthErrors(error, "r-emailError");
     }
 }
-
 async function handleLogin(event) {
     event.preventDefault();
 
@@ -231,8 +232,8 @@ function validateAge() {
     const errorField = document.getElementById("r-ageError");
     errorField.textContent = "";
 
-    if (!age || isNaN(age) || age < 18 || age > 100) {
-        errorField.textContent = "Please enter a valid age between 18 and 100.";
+    if (!age || isNaN(age) || age < 5 || age > 100) {
+        errorField.textContent = "Please enter a valid age between 5 and 100.";
         return false;
     }
     return true;

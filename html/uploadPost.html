@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socify - Upload Image</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .bg-faded-white { background-color: #f8f9fa; }
+    .text-aqua-blue { color: #009fbd; }
+    .bg-aqua-blue { background-color: #009fb9; }
+    .bg-aqua-blue-hover:hover { background-color: #0085a5; }
+    .box-shadow { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+  </style>
+</head>
+<body class="bg-faded-white font-sans text-gray-800">
+
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="hidden lg:block lg:w-1/4 bg-white p-6 shadow-md">
+      <div class="text-xl font-bold text-aqua-blue mb-8">Socify</div>
+      <nav class="flex flex-col space-y-4">
+        <a href="./home.html" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">Home</span>
+        </a>
+        <a href="./profile.html" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">Profile</span>
+        </a>
+        <a href="./blog.html" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">Blogs</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 text-gray-800 hover:text-aqua-blue">
+          <span class="text-lg font-semibold">Upload</span>
+        </a>
+        <button id="logout" class="bg-aqua-blue text-white font-bold py-2 px-4 rounded bg-aqua-blue-hover mt-4">
+          Logout
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="w-full lg:w-3/4 flex items-center justify-center p-6">
+      
+      <div class="w-full max-w-md bg-white p-6 rounded-lg box-shadow">
+        <h1 class="text-2xl font-bold text-aqua-blue mb-4 text-center">Upload Your Image</h1>
+        <form class="flex flex-col space-y-4" id="uploadForm">
+          <label class="block">
+            <span class="text-gray-700">Choose an image:</span>
+            <input 
+              type="file" 
+              id="imageInput" 
+              accept="image/*" 
+              class="block w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-aqua-blue focus:outline-none"
+            >
+          </label>
+          <div class="flex items-center justify-between">
+            <button 
+              type="button" 
+              id="uploadButton" 
+              class="bg-aqua-blue text-white py-2 px-4 rounded bg-aqua-blue-hover" id="logout">
+              Upload
+            </button>
+            <p id="uploadStatus" class="text-gray-500 text-sm"></p>
+          </div>
+        </form>
+        <div id="uploadedImagePreview" class="mt-8 text-center">
+          <!-- Image Preview Will Appear Here -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript -->
+  <script type="module" src="../javascript/uploadPost.js"></script>
+
+</body>
+</html>
