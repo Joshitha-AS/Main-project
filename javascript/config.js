@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getDatabase, ref as databaseRef, set, get } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
 
-
 // Your Firebase config object
 const firebaseConfig = {
   apiKey: "AIzaSyBoSKc0-O0CB-6DsQHW74dSW41Hnk6lQJs",
@@ -45,9 +44,8 @@ await get(databaseRef(firebase, postPath))
                      <img src='${feed}' alt="">
                   </div>
                   <div class="flex justify-between text-sm text-gray-500">
-                    <span class="hover:text-aqua-blue cursor-pointer">Like</span>
-                    <span class="hover:text-aqua-blue cursor-pointer">Comment</span>
-                    <span class="hover:text-aqua-blue cursor-pointer">Share</span>
+                    <span id="like-btn" class="hover:text-aqua-blue cursor-pointer">Like</span>
+                    <span id="comment-box" class="hover:text-aqua-blue cursor-pointer">Comment</span>
                   </div>
                 </div>`
         

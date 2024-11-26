@@ -7,6 +7,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     onAuthStateChanged,
+    signOut,
 } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 
 // Firebase configuration
@@ -34,238 +35,200 @@ setPersistence(auth, browserSessionPersistence)
 onAuthStateChanged(auth, (user) => {
     if (user) {
         console.log("User is logged in:", user);
-        window.location.href = "./html/home.html";
+        window.location.href = "./html/home.html"; // Adjust path as needed
     } else {
         console.log("No user is logged in.");
     }
 });
 
-// DOMContentLoaded Event
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("loginForm").addEventListener("submit", handleLogin);
-    document.getElementById("registerForm").addEventListener("submit", handleRegister);
-
-    // Real-time validation for registration fields
-    ["username", "registerEmail", "registerPassword", "registerNumber", "gender"].forEach((field) =>
-        document.getElementById(field).addEventListener("input", validateRegisterField)
-    );
-
-    // Real-time validation for login fields
-    ["loginEmail", "loginPassword"].forEach((field) =>
-        document.getElementById(field).addEventListener("input", validateLoginField)
-    );
-});
-
-// --- Utility: Real-time Field Validation ---
-function validateRegisterField(event) {
-    const fieldId = event.target.id;
-    switch (fieldId) {
-        case "username":
-            validateUsername();
-            break;
-        case "registerEmail":
-            validateEmail("registerEmail", "r-emailError");
-            break;
-        case "registerPassword":
-            validatePassword("registerPassword", "r-pswdError");
-            break;
-        case "registerNumber":
-            validateAge();
-            break;
-        case "gender":
-            validateGender();
-            break;
-    }
-}
-
-function validateLoginField(event) {
-    const fieldId = event.target.id;
-    switch (fieldId) {
-        case "loginEmail":
-            validateEmail("loginEmail", "loginEmailError");
-            break;
-        case "loginPassword":
-            validatePassword("loginPassword", "loginPasswordError");
-            break;
-    }
-}
-
-// --- Form Submission Handlers ---
-async function handleRegister(event) {
-    event.preventDefault();
-
-    // Perform all validations and collect results
-    const isUsernameValid = validateUsername();
-    const isEmailValid = validateEmail("registerEmail", "r-emailError");
-    const isPasswordValid = validatePassword("registerPassword", "r-pswdError");
-    const isAgeValid = validateAge();
-    const isGenderValid = validateGender();
-
-    // Check if all validations passed
-    const isValid = isUsernameValid && isEmailValid && isPasswordValid && isAgeValid && isGenderValid;
-
-    if (!isValid) {
-        console.log("Validation failed. Please check the highlighted errors.");
-        return; // Stop submission if any validation fails
-    }
-
-    // Proceed with Firebase registration
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("registerEmail").value.trim();
-    const password = document.getElementById("registerPassword").value.trim();
-
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        const userData = {
-            email: email,
-            username: username,
-            profileimg:
-                "https://i0.wp.com/static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg?ssl=1",
-            uid: user.uid,
-        };
-
-        await setDoc(doc(db, "users", user.uid), userData);
-        console.log("User registered successfully!");
-        window.location.href = "./login.html";
-    } catch (error) {
-        console.error("Registration error:", error.message);
-    }
-}
-async function handleLogin(event) {
-    event.preventDefault();
-
-    // Perform all validations and collect results
-    const isEmailValid = validateEmail("loginEmail", "loginEmailError");
-    const isPasswordValid = validatePassword("loginPassword", "loginPasswordError");
-
-    // Check if all validations passed
-    const isValid = isEmailValid && isPasswordValid;
-
-    if (!isValid) {
-        console.log("Validation failed. Please check the highlighted errors.");
-        return; // Stop submission if any validation fails
-    }
-
-    // Proceed with Firebase login
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value.trim();
-
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        console.log("Login successful:", userCredential.user);
-        window.location.href = "./html/home.html";
-    } catch (error) {
-        console.error("Login error:", error.message);
-        handleAuthErrors(error, "loginEmailError");
+// Utility function to set or clear error messages
+function setError(inputId, errorId, message = "") {
+    const errorField = document.getElementById(errorId);
+    errorField.textContent = message;
+    if (message) {
+        document.getElementById(inputId).classList.add("invalid");
+    } else {
+        document.getElementById(inputId).classList.remove("invalid");
     }
 }
 
 // --- Validation Functions ---
-function validateUsername() {
-    const username = document.getElementById("username").value.trim();
-    const errorField = document.getElementById("r-textError");
-    errorField.textContent = ""; // Clear previous error
-
-    const usernamePattern = /^[a-zA-Z0-9_]+$/;
-
-    if (!username) {
-        errorField.textContent = "Username is required.";
-        return false;
-    }
-    if (!usernamePattern.test(username)) {
-        errorField.textContent = "Username can only contain letters, numbers, and underscores.";
-        return false;
-    }
-    if (username.length < 3 || username.length > 30) {
-        errorField.textContent = "Username must be between 3 and 30 characters.";
-        return false;
-    }
-
-    return true;
-}
-
-function validateEmail(inputId, errorId) {
-    const email = document.getElementById(inputId).value.trim();
-    const errorField = document.getElementById(errorId);
-    errorField.textContent = "";
-
+function validateEmail(email, errorId) {
+    const emailPattern = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
     if (!email) {
-        errorField.textContent = "Email is required.";
+        setError("registerEmail", errorId, "Enter Email Address.");
         return false;
     }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-        errorField.textContent = "Please enter a valid email.";
+    if (!emailPattern.test(email)) {
+        setError("registerEmail", errorId, "Enter a valid email (e.g., example@gmail.com).");
         return false;
     }
+    setError("registerEmail", errorId);
     return true;
 }
 
-function validatePassword(inputId, errorId) {
-    const password = document.getElementById(inputId).value.trim();
-    const errorField = document.getElementById(errorId);
-    errorField.textContent = ""; // Clear previous error
-
-    // Regular expression to check if password contains at least one lowercase, one uppercase, and one number
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-
+function validatePassword(password, errorId) {
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/;
     if (!password) {
-        errorField.textContent = "Password is required.";
+        setError("registerPassword", errorId, "Enter Password.");
         return false;
     }
     if (password.length < 8) {
-        errorField.textContent = "Password must be at least 8 characters.";
+        setError("registerPassword", errorId, "Password must be at least 8 characters.");
         return false;
     }
     if (!passwordPattern.test(password)) {
-        errorField.textContent = "Password must contain at least one uppercase letter, one lowercase letter, and one number.";
+        setError(
+            "registerPassword",
+            errorId,
+            "Password must include uppercase, a number, and a special character."
+        );
         return false;
     }
-
+    setError("registerPassword", errorId);
     return true;
 }
 
-
-function validateAge() {
-    const age = document.getElementById("registerNumber").value.trim();
-    const errorField = document.getElementById("r-ageError");
-    errorField.textContent = "";
-
-    if (!age || isNaN(age) || age < 5 || age > 100) {
-        errorField.textContent = "Please enter a valid age between 5 and 100.";
+function validateUsername(username, errorId) {
+    const usernamePattern = /^[A-Z][a-z]*$/;
+    if (!username) {
+        setError("username", errorId, "Enter Username.");
         return false;
     }
+    if (!usernamePattern.test(username)) {
+        setError(
+            "username",
+            errorId,
+            "Username must start with an uppercase letter followed by lowercase letters only."
+        );
+        return false;
+    }
+    setError("username", errorId);
     return true;
 }
 
-function validateGender() {
-    const gender = document.getElementById("gender").value;
-    const errorField = document.getElementById("genderError");
-    errorField.textContent = "";
+function validateAge(age, errorId) {
+    if (!age) {
+        setError("registerNumber", errorId, "Enter Age.");
+        return false;
+    }
+    if (age < 10 || age > 100) {
+        setError("registerNumber", errorId, "Age must be between 10 and 100.");
+        return false;
+    }
+    setError("registerNumber", errorId);
+    return true;
+}
 
+function validateGender(gender, errorId) {
     if (!gender) {
-        errorField.textContent = "Please select a gender.";
+        setError("gender", errorId, "Select Gender.");
         return false;
     }
+    setError("gender", errorId);
     return true;
 }
 
-// --- Error Handling ---
-function handleAuthErrors(error, errorFieldId) {
-    const errorField = document.getElementById(errorFieldId);
-    errorField.textContent = "";
+// --- Event Handlers ---
+async function handleSignUp(event) {
+    event.preventDefault();
 
-    switch (error.code) {
-        case "auth/email-already-in-use":
-            errorField.textContent = "This email is already in use.";
-            break;
-        case "auth/invalid-email":
-            errorField.textContent = "Invalid email address.";
-            break;
-        case "auth/weak-password":
-            errorField.textContent = "Weak password. Use at least 8 characters.";
-            break;
-        case "auth/user-not-found":
-            errorField.textContent= "user not found"}
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("registerEmail").value.trim();
+    const age = document.getElementById("registerNumber").value.trim();
+    const gender = document.getElementById("gender").value;
+    const password = document.getElementById("registerPassword").value.trim();
+
+    const isUsernameValid = validateUsername(username, "r-textError");
+    const isEmailValid = validateEmail(email, "r-emailError");
+    const isAgeValid = validateAge(age, "r-ageError");
+    const isGenderValid = validateGender(gender, "genderError");
+    const isPasswordValid = validatePassword(password, "r-pswdError");
+
+    if (isUsernameValid && isEmailValid && isAgeValid && isGenderValid && isPasswordValid) {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Save additional user data to Firestore
+            await setDoc(doc(db, "users", user.uid), {
+                username,
+                email,
+                age,
+                gender,
+            });
+
+            alert("Sign Up Successful!");
+            window.location.href = "./html/home.html"; // Adjust path as needed
+        } catch (error) {
+            alert("Error during sign up: " + error.message);
+        }
     }
+}
+
+async function handleLogin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    const isEmailValid = validateEmail("loginEmail", "loginEmailError");
+    const isPasswordValid = validatePassword("loginPassword", "loginPasswordError");
+
+    if (!isEmailValid || !isPasswordValid) return;
+
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Login Successful!");
+        window.location.href = "./html/home.html"; // Adjust path as needed
+    } catch (error) {
+        alert("Error during login: " + error.message);
+    }
+}
+
+async function handleLogout() {
+    try {
+        await signOut(auth);
+        alert("Logged out successfully!");
+        window.location.href = "./index.html"; // Redirect to login
+    } catch (error) {
+        alert("Error during logout: " + error.message);
+    }
+}
+
+// --- Real-Time Validation Setup ---
+function setupRealTimeValidation() {
+    document.getElementById("username").addEventListener("input", () =>
+        validateUsername(document.getElementById("username").value, "r-textError")
+    );
+    document.getElementById("registerEmail").addEventListener("input", () =>
+        validateEmail(document.getElementById("registerEmail").value, "r-emailError")
+    );
+    document.getElementById("registerNumber").addEventListener("input", () =>
+        validateAge(document.getElementById("registerNumber").value, "r-ageError")
+    );
+    document.getElementById("gender").addEventListener("change", () =>
+        validateGender(document.getElementById("gender").value, "genderError")
+    );
+    document.getElementById("registerPassword").addEventListener("input", () =>
+        validatePassword(document.getElementById("registerPassword").value, "r-pswdError")
+    );
+
+    // Login Fields
+    document.getElementById("loginEmail").addEventListener("input", () =>
+        validateEmail("loginEmail", "loginEmailError")
+    );
+    document.getElementById("loginPassword").addEventListener("input", () =>
+        validatePassword("loginPassword", "loginPasswordError")
+    );
+}
+
+// --- Event Listeners ---
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("registerForm").addEventListener("submit", handleSignUp);
+    document.getElementById("loginForm").addEventListener("submit", handleLogin);
+    document.getElementById("logout").addEventListener("click", handleLogout);
+
+    // Set up real-time validation
+    setupRealTimeValidation();
+});
