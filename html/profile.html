@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Socify - Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -13,10 +14,13 @@
         <div class="container mx-auto flex justify-between items-center">
             <div class="text-xl font-bold text-aqua-blue">Socify</div>
             <div class="flex-grow mx-4">
-                <input type="text" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-aqua-blue">
+                <input type="text" placeholder="Search..."
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-aqua-blue" />
             </div>
             <div class="ml-4">
-                <div class="bg-aqua-blue h-10 w-10 rounded-full flex items-center justify-center text-white font-bold">JD</div>
+                <div class="bg-aqua-blue h-10 w-10 rounded-full flex items-center justify-center text-white font-bold">
+                    JD
+                </div>
             </div>
         </div>
     </header>
@@ -46,60 +50,71 @@
             <!-- Profile Header -->
             <div class="relative mb-8 text-center">
                 <!-- Profile Picture -->
-                <img id="profilePhoto" src="https://randomuser.me/api/portraits/men/9.jpg" alt="Profile Picture"
-                     class="w-24 h-24 mx-auto rounded-full border-4 border-aqua-blue shadow-md">
-                
+                <img id="profilePhoto" src="" alt="Profile Picture"
+                    class="w-24 h-24 mx-auto rounded-full border-4 border-aqua-blue shadow-md" />
+
                 <!-- Edit Profile Button -->
-                <button id="editProfileButton" 
-                        class="absolute right-0 transform translate-y-6 translate-x-2 bg-[#009fbd] text-white h-10 w-10 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-600 transition">
+                <button id="editProfileButton"
+                    class="absolute right-0 transform translate-y-6 translate-x-2 bg-[#009fbd] text-white h-10 w-10 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-600 transition">
                     +
                 </button>
             </div>
 
             <div class="text-center">
-                <h1 id="profileName" class="text-3xl font-semibold">John Doe</h1>
-                <p id="profileUsername" class="text-gray-500">@johndoe</p>
+                <h1 id="profileName" class="text-3xl font-semibold"></h1>
+                <p id="profileUsername" class="text-gray-500"></p>
             </div>
 
             <!-- About Me Section -->
             <div class="mt-8">
                 <h2 class="text-xl font-semibold mb-4">About Me</h2>
                 <p id="aboutMe" class="text-gray-700">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
+                    
                 </p>
             </div>
         </div>
     </div>
 
     <!-- Edit Profile Modal -->
-    <div id="editProfileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div id="editProfileModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white p-6 rounded-lg w-96 shadow-lg">
             <h2 class="text-2xl font-semibold mb-4">Edit Profile</h2>
             <form id="editProfileForm">
                 <label class="block text-gray-700 mb-2">Name:</label>
-                <input id="editName" type="text" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="Enter your name">
-                
+                <input id="editName" type="text" class="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                    placeholder="Enter your name" />
+
                 <label class="block text-gray-700 mb-2">Username:</label>
-                <input id="editUsername" type="text" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="@username">
-                
+                <input id="editUsername" type="text" class="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                    placeholder="@username" />
+
                 <label class="block text-gray-700 mb-2">About Me:</label>
-                <textarea id="editAboutMe" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="Tell something about yourself..."></textarea>
-                
-                <label class="block text-gray-700 mb-2">Profile Photo URL:</label>
-                <input id="editPhotoURL" type="text" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="Paste image URL">
+                <textarea id="editAboutMe" class="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                    placeholder="Tell something about yourself..."></textarea>
+                <div>
+                    <label class="block text-gray-700 mb-2">Profile Photo</label>
+                    <input type="file" id="editPhoto" accept="image/*"
+                        class="block w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-aqua-blue focus:outline-none" />
+                    <button type="button" id="uploadProfile" class="px-4 py-2 bg-gray-300 rounded-lg">
+                        Upload
+                    </button>
+                </div>
 
                 <div class="flex justify-end space-x-2">
-                    <button type="button" id="cancelEditProfile" class="px-4 py-2 bg-gray-300 rounded-lg">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-[#009fbd] text-white rounded-lg">Save</button>
+                    <button type="button" id="cancelEditProfile" class="px-4 py-2 bg-gray-300 rounded-lg">
+                        Cancel
+                    </button>
+                    <button type="submit" id="saveEditProfile" class="px-4 py-2 bg-[#009fbd] text-white rounded-lg">
+                        Save
+                    </button>
                 </div>
             </form>
         </div>
-    </div>z
-
+    </div>
 
     <!-- JavaScript -->
-  
-    <script type="module" src="../javascript/profile.js">   
-    </script>
+    <script type="module" src="../javascript/profile.js"></script>
 </body>
+
 </html>

@@ -28,7 +28,7 @@ const uploadedImagePreview = document.getElementById('uploadedImagePreview');
 uploadButton.addEventListener('click', async () => {
   const file = imageInput.files[0];
   if (file) {
-    const storageRef = storeRef(storage, `UserPosts/${"joshitha" + new Date().toISOString() + Math.random()}`); // Create reference with folder
+    const storageRef = storeRef(storage, `UserPosts/${ file.name+ new Date().toISOString() + Math.random()}`); // Create reference with folder
 
     uploadStatus.textContent = 'Uploading...';
 
@@ -48,11 +48,12 @@ uploadButton.addEventListener('click', async () => {
       // .replace(/(\d{4})-(\d{2})-(\d{2})$/, '$1-$2T$3')  // Add 'T' between date and time
       // .replace(/(\d{2}:\d{2}:\d{2})$/, (match) => match + '.123Z'); // Add milliseconds and 'Z'
 
-      const postPath = `socify/posts/${sanitizingDate()}/brindha`;
+      const postPath = `socify/posts/${sanitizingDate()}/post`;
       let postData = {
         postLink: downloadURL,
         like: 0,
         comment: 0,
+        uid: localStorage.getItem("uid"),
       }
       await set(databaseRef(firebase, postPath), postData)
         .then(() => console.log("Data written successfully."))

@@ -56,7 +56,7 @@ blogButton.addEventListener('click', async () => {
   const blogContent = blogInput.value.trim();
   if (blogContent) {
     try {
-      // Add blog to Firestore
+      // Add blog to Firestore\
       const blogDoc = await addDoc(blogsCollection, {
         content: blogContent,
         likes: 0, // Initialize with 0 likes
