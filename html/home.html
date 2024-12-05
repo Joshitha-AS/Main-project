@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Socify</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     .bg-faded-white { background-color: #f8f9fa; }
     .text-aqua-blue { color: #009fbd; }
@@ -15,6 +16,22 @@
       margin: 10px 0 0 0;
       height: 250px;
     }
+    @keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.heart-pop {
+  animation: heartPop 0.3s ease-in-out;
+}
+
   </style>
 </head>
 <body class="bg-faded-white font-sans text-gray-800">
@@ -57,13 +74,13 @@
 
       <!-- Stories Section -->
       <section class="mb-6">
-        <h2 class="text-xl font-semibold text-aqua-blue mb-4">Stories</h2>
+        <h2 class="text-xl font-semibold text-aqua-blue mb-4">Posts</h2>
         <div class="flex overflow-x-auto space-x-4">
           <!-- Example Story Circles -->
+          <!-- <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div>
           <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div>
           <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div>
-          <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div>
-          <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div>
+          <div class="flex-shrink-0 bg-gray-200 h-20 w-20 rounded-full flex items-center justify-center text-xs text-gray-600"></div> -->
         </div>
       </section>
 

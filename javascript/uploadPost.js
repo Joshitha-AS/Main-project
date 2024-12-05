@@ -24,7 +24,7 @@ const uploadButton = document.getElementById('uploadButton');
 const imageInput = document.getElementById('imageInput');
 const uploadStatus = document.getElementById('uploadStatus');
 const uploadedImagePreview = document.getElementById('uploadedImagePreview');
-
+const userID=localStorage.getItem("uid");
 uploadButton.addEventListener('click', async () => {
   const file = imageInput.files[0];
   if (file) {
@@ -48,12 +48,12 @@ uploadButton.addEventListener('click', async () => {
       // .replace(/(\d{4})-(\d{2})-(\d{2})$/, '$1-$2T$3')  // Add 'T' between date and time
       // .replace(/(\d{2}:\d{2}:\d{2})$/, (match) => match + '.123Z'); // Add milliseconds and 'Z'
 
-      const postPath = `socify/posts/${sanitizingDate()}/post`;
+      const postPath = `socify/posts/${sanitizingDate()}_${userID}/`;
       let postData = {
         postLink: downloadURL,
         like: 0,
         comment: 0,
-        uid: localStorage.getItem("uid"),
+        uid: userID,
       }
       await set(databaseRef(firebase, postPath), postData)
         .then(() => console.log("Data written successfully."))
