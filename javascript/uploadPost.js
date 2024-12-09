@@ -25,11 +25,16 @@ const imageInput = document.getElementById('imageInput');
 const uploadStatus = document.getElementById('uploadStatus');
 const uploadedImagePreview = document.getElementById('uploadedImagePreview');
 const userID=localStorage.getItem("uid");
+const captionInput = document.getElementById('captionInput');
+
+
+
+
 uploadButton.addEventListener('click', async () => {
   const file = imageInput.files[0];
   if (file) {
     const storageRef = storeRef(storage, `UserPosts/${ file.name+ new Date().toISOString() + Math.random()}`); // Create reference with folder
-
+    const caption = captionInput.value.trim();
     uploadStatus.textContent = 'Uploading...';
 
     try {
@@ -43,17 +48,13 @@ uploadButton.addEventListener('click', async () => {
         return new Date().toISOString().replace(/[-:.T]/g, '_');
       }
 
-      // const isoDateTime = sanitizedDateTime
-      // .replace(/_/g, '-')              // Replace underscores with hyphens
-      // .replace(/(\d{4})-(\d{2})-(\d{2})$/, '$1-$2T$3')  // Add 'T' between date and time
-      // .replace(/(\d{2}:\d{2}:\d{2})$/, (match) => match + '.123Z'); // Add milliseconds and 'Z'
-
       const postPath = `socify/posts/${sanitizingDate()}_${userID}/`;
       let postData = {
         postLink: downloadURL,
         like: 0,
         comment: 0,
         uid: userID,
+        caption: caption || "No caption provided",
       }
       await set(databaseRef(firebase, postPath), postData)
         .then(() => console.log("Data written successfully."))
@@ -65,6 +66,7 @@ uploadButton.addEventListener('click', async () => {
       uploadedImagePreview.innerHTML = `
             <p class="text-green-500">Image uploaded successfully!</p>
             <img src="${downloadURL}" alt="Uploaded Image" class="mt-4 max-w-full rounded-lg shadow-md">
+            <p class="mt-2">${caption || "No caption provided"}</p>
           `;
 
       uploadStatus.textContent = 'Upload complete.';

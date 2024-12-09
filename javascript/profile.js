@@ -1,7 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
+import { getStorage, ref as databaseref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
 import { getFirestore, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getDatabase, ref as postRef, onValue } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBoSKc0-O0CB-6DsQHW74dSW41Hnk6lQJs",
@@ -17,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage();
 const db = getFirestore();
 const auth = getAuth();
+const database = getDatabase();
 
 const profilePhoto = document.getElementById("profilePhoto");
 const uploadProfile = document.getElementById("uploadProfile");
@@ -63,7 +66,7 @@ uploadProfile.addEventListener("click", () => {
     if (file) {
       const user = auth.currentUser;
       if (user) {
-        const fileRef = ref(storage, `profilePhotos/${user.uid}`);
+        const fileRef = databaseref(storage, `profilePhotos/${user.uid}`);
         await uploadBytes(fileRef, file);
         const downloadURL = await getDownloadURL(fileRef);
 
@@ -110,3 +113,86 @@ saveEditProfile.addEventListener("click", async (event) => {
 });
 
 
+const coverPhoto = document.getElementById("coverPhoto");
+
+// Fetch user details (extended to include cover photo)
+auth.onAuthStateChanged(async (user) => {
+  if (user) {
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      coverPhoto.src = userData.coverPhoto || "https://via.placeholder.com/600x200"; // Default cover photo
+      profilePhoto.src = userData.profileimg || "https://via.placeholder.com/150";
+      profileName.textContent = userData.name || "Anonymous";
+      profileUsername.textContent = userData.userName || "@username";
+      aboutMe.textContent = userData.about || "No information provided.";
+    }
+  }
+});
+
+// Cover photo upload functionality
+coverPhoto.addEventListener("click", () => {
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*";
+  fileInput.click();
+
+  fileInput.onchange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const user = auth.currentUser;
+      if (user) {
+        const fileRef = databaseref(storage, `coverPhotos/${user.uid}`);
+        await uploadBytes(fileRef, file);
+        const downloadURL = await getDownloadURL(fileRef);
+
+        coverPhoto.src = downloadURL;
+
+        // Update Firestore
+        const userRef = doc(db, "users", user.uid);
+        await updateDoc(userRef, { coverPhoto: downloadURL });
+      }
+    }
+  };
+});
+
+const postsContainer = document.getElementById("postsContainer");
+
+// Listen to changes in user's posts
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log("check 1")
+    const userPostsRef = postRef(database, `posts/${user.uid}`);
+    onValue(userPostsRef, (snapshot) => {
+      postsContainer.innerHTML = ""; // Clear existing posts
+      if (snapshot.exists()) {
+        const posts = snapshot.val();
+        // console.log(posts)
+        Object.keys(posts).forEach((postId) => {
+          const post = posts[postId];
+          
+          renderPost(post);
+        });
+      } else {
+        postsContainer.innerHTML = "<p>No posts to display.</p>";
+      }
+    });
+  }
+});
+
+// Function to render a single post
+function renderPost(postData) {
+  const postDiv = document.createElement("div");
+  postDiv.className = "post";
+   
+  postDiv.innerHTML = `
+    <h3>${postData.title || "Untitled Post"}</h3>
+    <p>${postData.content || "No content provided."}</p>
+
+    <small>Uploaded on: ${new Date(postData.timestamp || Date.now()).toLocaleString()}</small>
+  `;
+
+  postsContainer.appendChild(postDiv);
+}

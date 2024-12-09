@@ -25,6 +25,10 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
+#gender option{
+    color: #333;
+}
+
 .form-box {
     position: relative;
     width: 100%;

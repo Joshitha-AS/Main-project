@@ -77,11 +77,13 @@ registerForm.addEventListener("submit", (event) => {
         minLength: 3,
         maxLength: 20
     });
+    
     const isEmailValid = validateInput(email, emailError, {
         required: true,
-        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        patternMessage: "Please enter a valid email address."
+        pattern: /^[a-z0-9]+@[a-z0-9]+\.[a-z]{2,4}$/,
+        patternMessage: "Email must be in lowercase"
     });
+    
     const isAgeValid = validateInput(age, ageError, {
         required: true,
         pattern: /^\d+$/,
@@ -89,13 +91,16 @@ registerForm.addEventListener("submit", (event) => {
         custom: (value) => parseInt(value, 10) >= 8 && parseInt(value, 10) <= 100,
         customMessage: "Age must be between 8 and 100."
     });
+    
     const isGenderValid = validateInput(gender, genderError, { required: true });
+    
     const isPasswordValid = validateInput(password, passwordError, {
         required: true,
-        minLength: 6,
+        minLength: 8,
         pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
         patternMessage: "Password must contain at least one uppercase letter, one lowercase letter, and one number."
     });
+    
 
     if (isUsernameValid && isEmailValid && isAgeValid && isGenderValid && isPasswordValid) {
         createUserWithEmailAndPassword(auth, email.value, password.value)

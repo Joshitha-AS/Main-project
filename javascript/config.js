@@ -1,4 +1,3 @@
-
 import {
   initializeApp,
   getApps,
@@ -85,7 +84,7 @@ try {
               <button 
                 class="likeButton p-2 rounded-full text-gray-500 hover:text-red-500 focus:outline-none"
                 data-post-id="${postId}">
-                <i class="fa-regular fa-heart text-2xl"></i>
+                <i class="fa-solid fa-heart text-2xl"></i>
               </button>
               <span class="likeCount ml-3 text-gray-700 font-medium">0</span>
             </div>
