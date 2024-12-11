@@ -69,48 +69,47 @@ try {
 
       // Create post container dynamically
       const postContainer = document.createElement("div");
-      postContainer.innerHTML = `
-        <div class="bg-faded-white p-4 rounded-lg shadow mb-4 postContainer">
-          <div class="flex items-center mb-2">
-            <img src="${profilePhoto}" class="h-10 w-10 rounded-full mr-3">
-            <h3 class="font-semibold text-gray-800">${userName}</h3>
-          </div>
-          <p class="text-gray-600 mb-2">${role}</p>
-          <div>
-            <img src="${feed}" alt="Post Image" class="rounded-lg shadow">
-          </div>
-          <div class="flex justify-between text-sm text-gray-500 mt-2">
-            <div class="flex items-center">
-              <button 
-                class="likeButton p-2 rounded-full text-gray-500 hover:text-red-500 focus:outline-none"
-                data-post-id="${postId}">
-                <i class="fa-solid fa-heart text-2xl"></i>
-              </button>
-              <span class="likeCount ml-3 text-gray-700 font-medium">0</span>
-            </div>
-            <div class="flex items-center">
-              <button 
-                class="commentButton p-2 rounded-full text-gray-500 hover:text-blue-500 focus:outline-none"
-                data-post-id="${postId}">
-                <i class="fa-solid fa-comments text-2xl"></i>
-              </button>
-            </div>
-          </div>
-          <div class="commentSection hidden" id="commentSection-${postId}">
-            <div class="commentsList"></div>
-            <input 
-              type="text" 
-              class="commentInput border rounded p-2 mt-2 w-full"
-              placeholder="Add a comment..." 
-            />
-            <button 
-              class="postCommentButton bg-blue-500 text-white p-2 rounded mt-2">
-              Post
-            </button>
-          </div>
-        </div>
-      `;
-
+postContainer.innerHTML = `
+  <div class="bg-faded-white p-4 rounded-lg shadow mb-4 postContainer">
+    <div class="flex items-center mb-2">
+      <img src="${profilePhoto}" class="h-10 w-10 rounded-full mr-3">
+      <h3 class="font-semibold text-gray-800 cursor-pointer user-profile-link" data-uid="${uid}">${userName}</h3>
+    </div>
+    <p class="text-gray-600 mb-2">${role}</p>
+    <div>
+      <img src="${feed}" alt="Post Image" class="rounded-lg shadow">
+    </div>
+    <div class="flex justify-between text-sm text-gray-500 mt-2">
+      <div class="flex items-center">
+        <button 
+          class="likeButton p-2 rounded-full text-gray-500 hover:text-red-500 focus:outline-none"
+          data-post-id="${postId}">
+          <i class="fa-solid fa-heart text-2xl"></i>
+        </button>
+        <span class="likeCount ml-3 text-gray-700 font-medium">0</span>
+      </div>
+      <div class="flex items-center">
+        <button 
+          class="commentButton p-2 rounded-full text-gray-500 hover:text-blue-500 focus:outline-none"
+          data-post-id="${postId}">
+          <i class="fa-solid fa-comments text-2xl"></i>
+        </button>
+      </div>
+    </div>
+    <div class="commentSection hidden" id="commentSection-${postId}">
+      <div class="commentsList"></div>
+      <input 
+        type="text" 
+        class="commentInput border rounded p-2 mt-2 w-full"
+        placeholder="Add a comment..." 
+      />
+      <button 
+        class="postCommentButton bg-blue-500 text-white p-2 rounded mt-2">
+        Post
+      </button>
+    </div>
+  </div>
+`;
       // Append the post container to the main container
       document.getElementById("mainPostContainer").appendChild(postContainer);
 
@@ -271,3 +270,60 @@ function listenToLikes(postId) {
     });
   }
 }
+
+
+//Fetch `uid` from query string
+const urlParams = new URLSearchParams(window.location.search);
+const uid = urlParams.get("uid");
+
+// DOM elements
+const profileLoading = document.getElementById("profile-loading");
+const profileContent = document.getElementById("profile-content");
+const userProfilePhoto = document.getElementById("profile-photo");
+const userProfileUsername = document.getElementById("profile-username");
+const profileEmail = document.getElementById("profile-email");
+const profileBio = document.getElementById("profile-bio");
+
+// Fetch user data from Firestore
+async function fetchUserProfile() {
+  try {
+    if (!uid) {
+      profileLoading.textContent = "No user found.";
+      return;
+    }
+
+    const userRef = doc(db, "users", uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+
+      // Populate profile details
+      userProfilePhoto.src = userData.profileimg || "default-profile-photo-url.jpg";
+      userProfileUsername.textContent = userData.userName || "Unknown User";
+      profileEmail.textContent = userData.email || "No email provided.";
+      profileBio.textContent = userData.bio || "No bio available.";
+      
+      profileLoading.classList.add("hidden");
+      profileContent.classList.remove("hidden");
+    } else {
+      profileLoading.textContent = "User profile not found.";
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    profileLoading.textContent = "Error loading profile.";
+  }
+}
+
+
+// Event listener for user profile links
+document.addEventListener("click", (event) => {
+  const target = event.target;
+  if (target.classList.contains("user-profile-link")) {
+    const userId = target.getAttribute("data-uid");
+    if (userId) {
+      window.location.href = `?uid=${userId}`;
+    }
+  }
+});
+fetchUserProfile() 
